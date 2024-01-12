@@ -133,11 +133,31 @@
 				<!-- Three -->
 					<section id="three" class="wrapper style1 fade-up">
 						<div class="inner">
-							<h2>Get in touch</h2>
-                            <!--		<p>Phasellus convallis elit id ullamcorper pulvinar. Duis aliquam turpis mauris, eu ultricies erat malesuada quis. Aliquam dapibus, lacus eget hendrerit bibendum, urna est aliquam sem, sit amet imperdiet est velit quis lorem.</p> -->
+							<h2>Get in touch with me!</h2>
 							<div class="split style1">
 								<section>
-									<form method="post" action="mailto:ayushimandlik09@gmail.com">
+                                    <form
+                                          action="https://formspree.io/f/xbjnlgjq"
+                                          method="POST"
+                                          >
+                                            <label>
+                                              Your name:
+                                              <input type=text name="name">
+                                            </label>
+                                            <label>
+                                              Your email:
+                                              <input type="email" name="email">
+                                            </label>
+                                            <label>
+                                              Your message:
+                                              <textarea name="message"></textarea>
+                                            </label>
+                                            <!-- your other form fields go here -->
+                                            <button type="submit">Send</button>
+                                          </form>
+
+                                    <!--
+									<form method="post" action="mailto:ayushimandlik09@gmail.com?subject=email&body=message">
 										<div class="fields">
 											<div class="field half">
 												<label for="name">Name</label>
@@ -156,6 +176,7 @@
 											<li><a href="" class="button submit">Send Message</a></li>
 										</ul>
 									</form>
+                                    -->
 								</section>
 								<section>
 									<ul class="contact">
