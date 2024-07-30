@@ -166,8 +166,15 @@
                                               <textarea name="message"></textarea>
                                             </label>
                                             <!-- your other form fields go here -->
-                                            <button type="submit">Send</button>
+                                            <button onclick="clearInputField()" type="submit">Send</button>
                                           </form>
+    <script>
+window.onbeforeunload = () => {
+  for(const form of document.getElementsByTagName('form')) {
+    form.reset();
+  }
+}
+    </script>
 
                                     <!--
 									<form method="post" action="mailto:ayushimandlik09@gmail.com?subject=email&body=message">
@@ -195,7 +202,7 @@
 									<ul class="contact">
 										<li>
 											<h3>Address</h3>
-											<span>Cobblebank<br />
+											<span>Rockbank<br />
                                                 Melbourne<br/>
                                                 (Send me a message if you need my full address!)
                                             </span>
