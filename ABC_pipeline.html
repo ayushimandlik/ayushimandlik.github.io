@@ -41,6 +41,8 @@
 							<span class="image fit"><img src="images/ABC_pipeline.png" alt="" /></span>
                             <p>The radio frequency data was chunked up across 8 GPU-enabled nodes for pre-processing. Each GPU enabled node thus processed 24 beams. Data blocks of dimension: 512 X 8192 X 24 (frequency samples X time samples X beams) are fed to a GPU on each node. Candidates for classification are fed through a pre-processing pipeline. For more information about the pre-processing steps, please refer to my <a href="https:// researchbank.swinburne.edu.au/file/8e23dc72-0e53-4645-9fd6-e44da85fadb6/1/ayushi_mandlik_thesis.pdf">thesis</a>! </p> 
                             <p>The pre-processed data is then sent to a CNN based classification system, with the information from the adjacent beams. It classified the candidate as an FRB or RFI.</p> 
+                            <p>The final precision of the pipleline was 99.99%, with a recall of 100% for candidates with a Signal to Noise Ratio (SNR) of greater than 15, 97% for
+candidates with SNR between 10 to 15 and 80% for candidates with SNR between 8 to 10. </p>
 						</div>
 					</section>
 
