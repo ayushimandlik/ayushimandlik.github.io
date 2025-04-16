@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>FRBs</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="title">Home</a>
+				<nav>
+					<ul>
+						<li><a href="resume.html">Resume</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+
+							<h1 class="major">What is Customer Segmentation?</h1>
+                            <p> Customer segmentation is the process of dividing a company’s customers into groups based on shared characteristics—like how often they buy, how much they spend, or how recently they made a purchase. </p>
+                            <p> Instead of treating all customers the same, businesses use segmentation to understand different types of buyers. For example, some people buy frequently and spend a lot, while others might only make small purchases once in a while. Grouping these customers helps companies create more personalized marketing strategies.</p>
+                            <h1 class="major" > Why is it Useful? </h1>
+                            <p>Customer segmentation helps businesses answer questions like:</p>
+                            <ul>
+                                <li> Who are my most valuable customers?</li>
+
+                                <li>Which customers are at risk of leaving? </li>
+
+                                <li> How can I better target different types of shoppers? </li>
+                                <p> By understanding these patterns, companies can: </p>
+                                <li> Offer loyalty rewards to their best customers </li>
+                                <li>  Send re-engagement offers to inactive users</li>
+                                <li>  Design special deals for frequent buyers</li>
+                            </ul>
+                            <p> Overall, segmentation is a simple but powerful way to make marketing and customer service more effective.</p>
+                            <h2 align = "center"> Customer segmentation</h2>
+                            <span class="image fit"><img src="images/customer_segmentation.png" alt="Image of customers divided into various clusters." /></span>
+
+                            <h1 class="major">Project overview </h1>
+                            <p>
+                            For this project, I used a publicly available online retail dataset that contains over 90,000 transactions between December 2010 and December 2011. The dataset comes from a UK-based non-store online retailer that sells unique all-occasion gifts. Many of the company’s customers are wholesalers. Dataset Source: Online Retail Data Set, UCI Machine Learning Repository.  <a   href="https://archive.ics.uci.edu/dataset/352/online+retail">Link</a> </p>
+                            <p> Each row in the dataset represents a transaction and includes the following features: </p>
+                            <ul>
+                                <li> InvoiceNo: Unique invoice number (invoices starting with 'C' are cancellations)</li>
+                                <li> StockCode: Product/item code</li>
+                                <li> Description: Product name </li>
+                                <li> Quantity: Quantity of the item purchased</li>
+                                <li> InvoiceDate: Date and time of the transaction</li>
+                                <li> UnitPrice: Price per unit (in Sterling)</li>
+
+                                <li> CustomerID: Unique identifier for each customer </li>
+                                <li> Country: Customer's country of residence </li>
+                                </ul>
+
+                                <h1>Project pipeline </h1>
+                                <p>Here is a high-level overview of the steps I followed in this project: </p>
+                            <span class="image fit"><img src="images/cust_seg_pipeline.png" alt="Image showing steps followed in the project." /></span>
+                                <p> To understand customer behavior, I focused on building RFM (Recency, Frequency, Monetary) features using the transaction data. These metrics are commonly used in marketing and customer analytics: </p>
+                                <ul>
+                                    <li> Recency: How recently a customer made a purchase </li>
+                                    <li> Frequency: How often they purchase </li>
+                                    <li> Monetary: How much they spend </li>
+                                </ul>
+
+                                <p> Based on the RFM features, the customers were clustered using KMeans clustering into 4 groups. These included loyal, high-spending customers; regular shoppers with moderate frequency; price-sensitive or less engaged customers; and at-risk customers who haven't made purchases in a while. These insights can help businesses personalize marketing, re-engage inactive users, or reward loyal buyers.</p>
+<p> Dive into the interactive notebook to see how I used KMeans clustering on real retail data to uncover unique customer segments — code and insights included! </p>
+					<a href="https://colab.research.google.com/github/ayushimandlik/customer_segmentation/blob/main/Customer_segmentation_online_data.ipynb" target="_blank">
+  <button>🧪 Run on Google Colab</button>
+</a>
+
+
+                            <!-- <span class="image fit"><img src="images/ABC_pipeline.png" alt="" /></span> -->
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
