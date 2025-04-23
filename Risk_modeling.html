@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>FRBs</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="title">Home</a>
+				<nav>
+					<ul>
+						<li><a href="resume.html">Resume</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+
+							<h1 class="major">What is Risk Modeling?</h1>
+<p>Risk modeling is like giving your data a crystal ball — it is the art (and science) of using data to predict the future, especially when it comes to identifying potential financial losses. Whether it is predicting a credit default, a data breach, or a supply chain delay, risk modeling plays a key role across finance, tech, healthcare, logistics, and more. For example, if someone applies for a loan, a risk model helps the bank estimate whether they are likely to pay it back or default — before making the decision to lend.
+</p>
+<p>
+These models rely on historical data, statistics, and machine learning to spot patterns and make informed predictions. They come in all flavors — credit risk models (who might default), market risk models (what happens if markets crash), and operational risk models (what if systems fail?). They can be simple, like rule-based thresholds, or complex, like Monte Carlo simulations or tree-based ML algorithms. Some even flag the risk that the models themselves might be off — yes, that’s called model risk!
+</p>
+<p>
+The beauty of risk modeling is that it turns gut feeling into structured, data-backed decision-making. Whether it is improving how banks lend, ensuring compliance with regulations, or just making smarter business calls, risk models help institutions navigate uncertainty with confidence. It is like having a risk radar — so you are not just reacting to trouble, you are staying one step ahead of it.
+</p>
+
+							<h1 class="major">Project Overview</h1>
+<p> This project uses a rich and widely-used dataset from LendingClub, a peer-to-peer lending platform that connects borrowers with investors. The dataset contains detailed information on loans issued over several years — including borrower demographics, financial history, loan status, and repayment details. It offers a goldmine of real-world features for risk modeling and credit analysis.</p>
+<p>
+The version I worked with focuses on accepted loans only, giving us data like loan amount, term, interest rate, employment details, credit utilization, and even FICO scores (when available). Due to LendingClub's data access restrictions in recent times, this dataset was pulled from a Kaggle <a href="https://www.kaggle.com/datasets/wordsforthewise/lending-club">repo</a> that carefully aggregated and preprocessed data from multiple LendingClub sources — shoutout to the data wranglers for saving us all some time!</p>
+<p>
+Some of the key features include:
+</p>
+<ul>
+<li>Loan terms and amounts (loan_amnt, term, int_rate, installment) </li>
+<li>Borrower profile (emp_title, emp_length, home_ownership, annual_inc) </li>
+<li>Credit history (earliest_cr_line, open_acc, revol_bal, revol_util) </li>
+<li>Loan purpose and performance (purpose, loan_status, default) </li>
+<li>Public records and delinquencies (pub_rec, pub_rec_bankruptcies, mort_acc) </li>
+</ul>
+Here is a high-level overview of the steps I followed in this project:
+
+                            <span class="image fit"><img src="images/risk_mod_pipeline.png" alt="" /></span>
+
+<p>
+I began by exploring the LendingClub dataset, which contains detailed information on borrowers, such as their income, credit history, loan amount, and employment details. My goal was to predict the risk of loan default based on these variables. The target variable was loan_status, which I converted into a binary format: <em>Fully Paid</em> or <em>Charged Off</em>.
+</p>
+<p>
+To enhance the dataset, I engineered a few new features:
+</p>
+<ul>
+<li>Income to Loan Ratio: calculated by dividing annual income by loan amount. </li>
+<li>Credit Utilisation: based on revolving balance and revolving utilization rate.</li>
+<li>Employment Clusters: since the employment title had thousands of unique entries, I embedded and clustered them into 10 groups using KMeans. </li>
+<li>Zip Code: extracted from the full address for geographical insight. </li>
+</ul>
+
+<p>
+This project was a great deep dive into how machine learning can be used to predict loan defaults with solid accuracy. XGBoost stood out as the star performer, delivering strong AUC scores even before fine-tuning. The neural network showed potential too, especially after applying K-Fold validation—though there’s still room to improve. One of my favorite takeaways was seeing how creative feature engineering, like clustering employment titles, can really boost model performance. Overall, it was both a learning experience and a reminder of how powerful data-driven insights can be when tackling real-world financial risks.
+</p>
+
+<p> Curious how I wrangled messy data, tuned models, and wrestled with neural nets? Click here to dive into the Colab notebook! </p>
+					<a href="https://colab.research.google.com/github/ayushimandlik/risk_modeling/blob/main/risk_modeling.ipynb"target="_blank">
+   <button> Run on Google Colab</button>
+ </a>
+                            <!-- <span class="image fit"><img src="images/ABC_pipeline.png" alt="" /></span> -->
+						</div>
+					</section>
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
