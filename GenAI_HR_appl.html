@@ -33,9 +33,69 @@
 				<!-- Main -->
 					<section id="main" class="wrapper">
 						<div class="inner">
+                            <h1 class="major"> GenAI-Powered HR Assistant </h1>
+<p>
+                            In this project, I built a GenAI-powered HR assistant app that blends traditional data analysis with large language models to answer both factual and fuzzy employee-related queries. Using a synthetic HR dataset, the app supports interactive visual insights, performs code-driven aggregations, and responds conversationally using vector search and Gemini Pro. This hybrid approach ensures accurate, insightful, and flexible support for people analytics use cases. (A deeper dive into the dataset, methodology, and tools follows further down the page!)
+                            </p>
+                            <h2> 🎬 See the App in Action </h2>
+                                    <p>
+While the app runs smoothly most of the time, it does rely on internet connectivity, Hugging Face Spaces, and external APIs like Gemini—which can occasionally be unpredictable. To make sure you get a seamless experience no matter what, I’ve created a series of video walkthroughs that showcase the app’s key features in action. It's a polished preview of everything the HR GenAI Assistant can do—minus the loading screens! 🚀🎥
+</p>
 
-                            <h1 class="major">What is GenAI?</h1>
-                                <p>Generative AI (GenAI) refers to a class of models capable of generating content such as text, code, or even visuals. These models are trained on vast datasets and can perform tasks like answering questions, writing scripts, and summarizing documents. In this app, GenAI is used to interpret user queries about HR data and respond intelligently—either with natural language or generated Python code that calculates answers behind the scenes.</p>
+<h3>Exploring Key Insights from the HR Dataset </h3>
+
+<div style="text-align: center;">
+<video id="myVideo" width="832" height="624" controls="controls autoplay">
+  <source src="images/insights_speed_up.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video><br>
+</div>
+<p>
+This video walks through the interactive Insights Dashboard of the GenAI-powered HR Assistant. It starts with a correlation heatmap showing relationships between features with at least one correlation above 0.2. For instance, JobLevel and MonthlyIncome exhibit a strong positive correlation (0.95), while YearsWithCurrentManager and YearsAtCompany also track closely—revealing tenure-linked management patterns. JobLevel and TotalWorkingYears also correlate significantly (0.77), indicating experience-driven promotion trends.
+</p>
+<p>
+Next, count plots explore how attrition varies across categories like EnvironmentSatisfaction and MaritalStatus. One notable insight is that single employees tend to leave at a higher rate than married or divorced counterparts—possibly indicating support systems influence retention.
+</p>
+<p>
+Finally, pie charts illustrate the distribution of demographic and work-related categories like AgeGroup, JobRole, and EducationField, providing a snapshot of workforce composition. These visual summaries help HR teams identify patterns, target interventions, and develop data-backed strategies.
+</p>
+
+
+<h3>Answering Aggregation-Based Questions with GenAI </h3>
+
+<div style="text-align: center;">
+<video id="myVideo" width="832" height="624" controls="controls autoplay">
+  <source src="images/aggregation_query_clipped_sped_up.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video><br>
+</div>
+<p>
+This video demonstrates how the assistant handles factual, metric-based queries like "How many employees left last year?" or "What is the average salary by department?" Behind the scenes, the app uses a language model to generate Python code, which is then executed securely on the backend to produce answers from the DataFrame.
+</p> <p>
+This approach offers both accuracy and flexibility—users can ask free-form questions while still getting precise, real-time data. It’s especially powerful for non-technical HR staff who want quick answers without writing code or SQL. You’ll see examples of queries, how fast the LLM responds, and the exact outputs it returns.
+</p>
+
+<h3>Fuzzy, Exploratory Questions via LLM + FAISS</h3>
+
+<div style="text-align: center;">
+<video id="myVideo" width="832" height="624" controls="controls autoplay">
+  <source src="images/fuzzy_query_sped_up.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video><br>
+</div>
+
+
+<p>
+In this video, the assistant tackles exploratory or open-ended HR questions like "Why do people usually leave?" or "What makes a good performer?" These are handled using retrieval-augmented generation (RAG)—where relevant insights are pulled from HR policy or documentation and passed to the Gemini Pro LLM via LangChain and FAISS.
+</p>
+<p>
+This allows the assistant to provide informed, context-aware answers even when the question isn’t directly tied to the dataset. For example, it can describe common traits of employees who leave, referencing trends or policy descriptions stored in the vector index. This makes the assistant not just a data tool, but a conversational HR knowledge companion.</p>
+
+Now that you  have seen the app in action, let us dive into the tech that powers it — starting with a quick look at what 'GenAI' actually is.
+
+  <div style="margin-top: 30px;"></div>
+                            <h1 class = "major">What is GenAI?</h1>
+                                <p>Generative AI (GenAI) refers to a class of models capable of generating content such as text, code, or even visuals. These models are trained on vast datasets and can perform tasks like answering questions, writing scripts, and summarizing documents. In this app, GenAI is used to interpret user queries about HR data and respond intelligently—either with natural language or generated Python code that calculates answers behind the scenes. To better understand how the app delivers intelligent responses, let us explore the core mechanisms that power it.</p>
 
                                 <h2>A Peek Under the Hood </h2>
                                 <h3> Embeddings</h3><p>
@@ -67,16 +127,7 @@ LangChain is what brings everything together. It handles connecting to the LLM (
       <li>Attrition Status: Whether an employee has left</li>
     </ul>
 
-<h3> App Functionality: The Hybrid Approach </h3>
-<em><b>1. Factual / Aggregation-Based Queries</b> </em>
-    <p><strong>Example:</strong> "How many employees left last year?"</p>
-    <p>LLM generates code → Code is safely executed → Result returned as text.</p>
-
-    <b><em>2. Fuzzy / Natural Language Queries</b></em>
-    <p><strong>Example:</strong> "What are some common traits of people who left?"</p>
-    <p>Query → FAISS retrieves context → Gemini Pro generates a natural language summary.</p>
-    
-    <h3> 🧰 Tools & Stack </h3>
+    <h3>Tools & Stack </h3>
     <table>
       <thead>
         <tr>
@@ -94,32 +145,31 @@ LangChain is what brings everything together. It handles connecting to the LLM (
         <tr><td>dotenv</td><td>Secure environment variable handling</td></tr>
       </tbody>
     </table>
-    <h3>🔁 Alternatives</h3>
+    <h3>Alternatives:</h3>
     <ul>
       <li><strong>LLMs:</strong> GPT-4, Claude, Mistral</li>
       <li><strong>Vector Store:</strong> ChromaDB, Pinecone</li>
       <li><strong>Frontend:</strong> Gradio, Flask + React</li>
     </ul>
 
-    <h2> Bottlenecks & How I Overcame Them </h2>
+    <h2>Lessons Learned While Debugging </h2>
   <div>
     <h3>🚀 Slow local loading of embedding models</h3>
-    <p><strong>Solution:</strong> Cached models using <code>@st.cache_resource</code>, and saved embeddings and vectorstore locally.</p>
-  </div>
-
-  <div>
-    <h3>📂 FAISS index not loading due to relative paths</h3>
-    <p><strong>Solution:</strong> Switched to absolute paths and verified persistence across sessions.</p>
+    <p><strong>Solution:</strong> Cached models using <code>@st.cache_resource</code>, and saved embeddings and vectorstore locally improving dev speed and responsiveness..</p>
   </div>
 
   <div>
     <h3>🐢 Heavy LLM calls slowing down the app</h3>
-    <p><strong>Solution:</strong> Deployed to Hugging Face Spaces, freeing up local compute.</p>
+    <p><strong>Solution:</strong> Deployed to Hugging Face Spaces, freeing up local compute and boosting app performance.</p>
   </div>
-
   <div>
     <h3>🔐 Security with API keys</h3>
     <p><strong>Solution:</strong> Used <code>.env</code> files locally and Hugging Face Secrets for deployment.</p>
+  </div>
+    
+  <div>
+    <h3>🔄 Long response times for aggregation-based queries</h3>
+    <p><strong>Solution:</strong> Separated aggregation and fuzzy query pipelines. For structured queries, I routed them through a custom code-gen pipeline that bypasses the LLM and executes Python directly for faster responses.</p> 
   </div>
     
 <a href="https://huggingface.co/spaces/ayushimandlik09/HR_peoples_analytics" class="button  primary fit" target="_blank">GenAI-Powered HR Assistant
