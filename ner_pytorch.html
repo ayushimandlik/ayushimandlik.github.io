@@ -1,0 +1,181 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>NER- Named Entity Recognition</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="title">Home</a>
+				<nav>
+					<ul>
+						<li><a href="resume.html">Resume</a></li>
+					</ul>
+				</nav>
+			</header>
+
+            <div style="background-color:#1DE9B6; color:white; padding:10px; text-align:center;">
+                <strong>Explore how models tokenize and tag your sentences.” <a href="https://name-entity-recognition.streamlit.app/" style="color:white; text-decoration:underline;" target="_blank">here</a>! </strong>
+</div>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+
+							<h1 class="major">Named Entity Recognition (NER) with PyTorch + BERT</h1>
+Let’s be real—language models like ChatGPT and BERT are super smart. But how do they actually know who “Elon Musk” is or what counts as a "location"? That  is where Named Entity Recognition (NER) comes in; and this project dives into building an NER system using PyTorch and the powerful BERT model.
+<div style="margin-top: 30px;"></div>
+<h3>The Dataset: Tagging the World, One Word at a Time</h3>
+<p>
+The dataset we used is made for NER tasks. Basically, it is a bunch of sentences where each word is labeled as a specific type of entity—or not an entity at all. Common entity tags include:
+</p>
+<ul>
+    <li>B-PER (Beginning of a Person's name) </li>
+    <li>I-ORG (Inside an Organization name) </li>
+    <li>O (Just a regular word—nothing special) </li>
+</ul>
+<p>
+Imagine this sentence: <em><b>"Ayushi is an amazing Data Scientist." </b></em> 
+
+</p>
+<table border="1">
+  <thead>
+    <tr>
+      <th>Word</th>
+      <th>Label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Ayushi</td>
+      <td>B-PER</td>
+    </tr>
+    <tr>
+      <td>is</td>
+      <td>O</td>
+    </tr>
+    <tr>
+    <tr>
+      <td>an</td>
+      <td>O</td>
+    </tr>
+      <td>amazing</td>
+      <td>O</td>
+    </tr>
+    <tr>
+      <td>Data</td>
+      <td>O</td>
+    </tr>
+    <tr>
+      <td>Scientist</td>
+      <td>O</td>
+    </tr>
+    <tr>
+      <td>.</td>
+      <td>O</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Each word is paired with a tag. It's simple, but super powerful for training models to recognize patterns. </p>
+
+<h3>Why This Project? </h3>
+This was not just about making BERT do NER tricks it was also about learning how things actually work under the hood. I wanted to:
+<ul>
+    <li>Get hands-on with PyTorch, especially compared to other tools like TensorFlow and Keras. </li>
+
+    <li>Understand how BERT handles language.</li>
+
+    <li>Learn what is really happening during tokenization and fine-tuning.</li>
+    </ul>
+    
+    <p>Even though modern models are crazy accurate, it’s still essential to grasp the basics if you want to build, customize, or improve them.
+    </p>
+
+    <h3>PyTorch vs. the Rest: A Quick Comparison </h3>
+    <p>Here is the lowdown on how PyTorch stacks up:
+    </p>
+    <ul>
+        <li><b>PyTorch:</b> Super flexible, perfect for research, and easy to debug thanks to its dynamic computation graph. </li>
+
+        <li><b>Keras:</b> Great for beginners and prototyping—simple and high-level, but a bit limited for custom tweaks. </li>
+
+        <li><b>TensorFlow:</b> Optimized for performance and production, but trickier to work with due to its static graph approach.
+                    </li>
+</ul>
+
+<blockquote>TL;DR: PyTorch = best for experimenting. TensorFlow = best for deployment.
+    </blockquote>
+    <h3>What I built </h3>
+The core of the project was creating an NER model using BERT + PyTorch. The goal? Train the model to spot entities like names, places, and organizations from raw text. The result is a system that can help power real-world tools like: Search engines, Chatbots, Information extraction tools (think: pulling key info from legal or medical documents).
+<h3> Meet BERT: The Language Model That Changed the Game</h3>
+<p>
+BERT (from Google, 2018) is a transformer-based model that processes language bidirectionally. That means it looks at the whole sentence—not just left to right like older models (e.g., early GPT versions). BERT was trained on huge text corpora like Wikipedia and BookCorpus, using something called Masked Language Modeling—predicting missing words in a sentence using surrounding context.
+For this project, I used <code>BertForTokenClassification</code>, a BERT variant that tags each word (or word-piece) in a sentence with an entity label.
+</p>
+<h3> Tokenization: Breaking Words Down </h3>
+<p>Before BERT sees the text, it breaks it into tokens using WordPiece tokenization. For instance, a rare name like "Ayushi" might get split into:</p>
+<pre>
+<code>
+['[CLS]', 'Ay', '##ushi', '[SEP]']
+</code>
+</pre>
+<ul>
+    <li><code>[CLS]</code> = Classification token (used mostly for classification tasks) </li>
+    <li><code>[SEP]</code> = Separator token (used between segments)</li>
+        </ul>
+        
+        <p>Each subword still gets labeled individually. So "Ay" might be tagged as <code>B-PER</code> and "##ushi" as <code>I-PER</code>.</p>
+        <h3>Summarizing </h3>
+        <p> In this project, I built a working NER model using BERT and PyTorch. Along the way, I got to:</p>
+        <ul>
+            <li>Explore how tokenization works. </li>
+            <li>Understand the BERT architecture. </li>
+            <li>Fine-tune a pre-trained model for a custom NLP task </li>
+</ul>
+<p>
+Even though tools like GPT-4 can do this stuff out of the box, learning to build it yourself helps you understand why it works—and how to make it better for your own use cases.
+</p>
+<p> You can test how the Named Entity recognition takes place <a href="https://name-entity-recognition.streamlit.app/">here!</a></p>
+
+
+                            <!-- <span class="image fit"><img src="images/ABC_pipeline.png" alt="" /></span> -->
+						</div>
+					</section>
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer>
+
+
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
