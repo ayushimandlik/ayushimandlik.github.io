@@ -92,6 +92,15 @@ Imagine this sentence: <em><b>"Ayushi is an amazing Data Scientist." </b></em>
 
 <p>Each word is paired with a tag. It's simple, but super powerful for training models to recognize patterns. </p>
 
+
+
+
+
+
+
+
+
+
 <h3>Why This Project? </h3>
 This was not just about making BERT do NER tricks it was also about learning how things actually work under the hood. I wanted to:
 <ul>
@@ -149,7 +158,18 @@ For this project, I used <code>BertForTokenClassification</code>, a BERT variant
 <p>
 Even though tools like GPT-4 can do this stuff out of the box, learning to build it yourself helps you understand why it works—and how to make it better for your own use cases.
 </p>
+<h3>See BERT and PyTorch in Action!</h3>
+<p>
+In this demo video, I show how the model takes a user-provided sentence, breaks it down into tokens using BERT’s tokenizer (including subwords and special tokens), and then identifies named entities like people, organizations, or locations. The model highlights each token along with its predicted label (like B-PER for the beginning of a person’s name), showcasing how fine-tuned transformers perform real-time entity recognition.
 <p> You can test how the Named Entity recognition takes place <a href="https://name-entity-recognition.streamlit.app/">here!</a></p>
+
+</p>
+<div style="text-align: center;">
+<video id="myVideo" width=100% height='auto' controls="controls autoplay">
+  <source src="images/NER_pytorch.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video><br>
+</div></p>
 
 
                             <!-- <span class="image fit"><img src="images/ABC_pipeline.png" alt="" /></span> -->
