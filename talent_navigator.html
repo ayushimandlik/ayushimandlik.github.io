@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>NER- Named Entity Recognition</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="title">Home</a>
+				<nav>
+					<ul>
+						<li><a href="resume.html">Resume</a></li>
+					</ul>
+				</nav>
+			</header>
+
+            <div style="background-color:#1DE9B6; color:white; padding:10px; text-align:center;">
+                <strong>Discover personalized career advice based on real-world data <a href="https://huggingface.co/spaces/ayushimandlik09/Talent_Navigator" style="color:white; text-decoration:underline;" target="_blank">here</a>! </strong>
+</div>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+
+							<h1 class="major">Talent Navigator – Career Advice with GenAI</h1>
+                            <p> The Internal Talent Navigator is a GenAI-powered career guidance tool that helps developers explore their next move by analyzing real-world career journeys. Using embeddings and similarity search, it finds peer profiles that match a user’s background and compares them with profiles from a target role. An LLM then synthesizes this information to offer personalized, grounded advice—turning abstract career exploration into concrete, data-backed suggestions.</p>
+
+                            <h3>🎥 Demo: Guided Career Advice from Real-World Paths </h3>
+                            <p>In this demo, I walk through how the Internal Talent Navigator works in action. I start by entering key profile details—education level, coding experience, job role, country, tools used, and more. With one click, the app uses vector similarity to surface the five most similar peer profiles and five that align closely with the user’s desired role. The GenAI assistant then steps in, synthesizing these profiles to infer a likely next career step and generate tailored, specific advice. The suggestions build on the user’s experience and reflect patterns found in the journeys of others—so the feedback is both realistic and relevant, not just AI guesswork.
+                            </p>
+
+<div style="text-align: center;">
+<video id="myVideo" width=100% height='auto' controls="controls autoplay">
+  <source src="images/talent_navigator.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video><br>
+</div></p>
+
+<h2>💡 What I Learned Building the Internal Talent Navigator </h2>
+<p>
+This project turned out to be a deep dive into how GenAI can be practically used to support real-world workforce mobility decisions. While I’ve built GenAI apps before, this one pushed me into fresh territory and taught me some valuable lessons:
+</p>
+<h3> Prompt Engineering for Reasoning Over Structured Data</h3>
+<p>
+I learned how tricky it can be to get an LLM to reason meaningfully from structured, real-world data. Since my underlying dataset (based on the StackOverflow Developer Survey) only included a handful of relevant features—like experience, languages used, tools, and job roles—I had to figure out how to:
+</p>
+<ul>
+    <li>Craft prompts that guide the LLM to infer patterns from peers and target profiles. </li>
+
+    <li>Prevent hallucinations (like the infamous “goal is becoming Australia” 😅) by grounding the prompt tightly to the available columns. </li>
+</ul>
+<p>
+It was not just about inserting the data—it was about structuring the story so the LLM made realistic, personalized suggestions.
+</p>
+
+<h3>Designing Dual Embedding Spaces for Profile Matching </h3>
+<p> 
+Instead of matching a user to just one set of profiles, I experimented with comparing:
+</p>
+<ul>
+    <li>Peer profiles (similar background) </li>
+
+    <li>Target role profiles (aspirational roles) </li>
+</ul>
+<p>
+This dual retrieval approach made the advice more nuanced and grounded. I learned how to:
+</p>
+<ul>
+    <li>Tune the embedding generation (and clean junk like &lt;span&gt; tags in the input data to improve accuracy) </li>
+
+            <li>Split similarity logic across two separate intents
+                </ul>
+                <p>
+Debug why "similar profiles" sometimes weren't geographically or professionally aligned, and refine accordingly.
+</p>
+
+<h3>Iterative Debugging and Real-Time UX Feedback </h3>
+<p>Performance and UX matter more than you think. I hit issues with:
+</p>
+<ul>
+    <li>Colab GPU quotas (hello, peak time burnout 😵)
+        </li>
+        <li>
+Storage limits on Hugging Face Spaces (turns out deletions do not always free up space)
+</li>
+<li>
+Needing a loading spinner to signal background LLM processing—small change, big impact!
+</li>
+</ul>
+<p>
+These taught me the importance of a tight feedback loop between frontend, backend, and real users.
+</p>
+
+<h3>Making the Model Not Make Stuff Up </h3>
+<p> One of the most important things I learned was how easily LLMs can drift into generic or incorrect advice if left unchecked. I:</p>
+<ul>
+    <li> Pruned the prompt aggressively to keep it grounded in the 20-column input schema</li>
+    <li> Explicitly told the model not to invent goals</li>
+    <li> Learned to identify whether the LLM was truly using the structured info I fed it, or just freestyling</li>
+    </ul>
+
+    <h3> Building With the End User in Mind</h3>
+    <p> The heart of the project was the career explorer—helping developers understand not just where they are, but where they could go next, based on real-world peer journeys. That shifted my mindset from “model builder” to “experience designer.”</p>
+
+    <h2> Final Thoughts</h2>
+    <p>
+    This was not just a project— it was a sandbox for everything that makes GenAI exciting and challenging: user alignment, data representation, retrieval, and prompting. It pushed me to blend creativity with constraint, and taught me how to deliver something that feels personal, helpful, and grounded in real-world data.
+    </p>
+						</div>
+					</section>
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer>
+
+
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
