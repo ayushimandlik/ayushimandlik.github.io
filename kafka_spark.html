@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+        <title>Kafka and Spark</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="youtube_video_analyser.html" class="title">Back</a>
+				<nav>
+					<ul>
+						<li><a href="index.html">Home</a></li>
+					</ul>
+				</nav>
+			</header>
+
+			<div id="wrapper">
+
+					<section id="main" class="wrapper">
+						<div class="inner">
+
+							<h1 class="major">What exactly is Apache Kafka?</h1>
+                            <p>
+                            Apache Kafka is like a high-speed digital postal system for data. Imagine a massive mailroom that continuously receives updates — these could be notifications from your favorite app, sensor readings from a factory floor, or in our case, trending YouTube video records. Kafka captures all this data and organizes it into labeled bins called topics. Think of a topic as a folder named “YouTube-Trending” where all relevant messages are dropped. This structure allows Kafka to neatly group and route information based on its type.
+                            </p>
+                            <h3>Key concepts </h3>
+                            <p> Messages are produced by producers, which are programs or services that send data into Kafka. In the pipeline (the youtube video analyser), a Python script acts as the producer by reading each row of a CSV file and sending it into a Kafka topic. On the other end, consumers are like subscribers who pick up messages from those topics. For instance, a Spark application might act as a consumer, subscribing to a topic and processing incoming data in real-time.
+                            </p><p>When it comes to setup, Kafka traditionally required a separate system called Zookeeper to manage its internal metadata, elect leaders among brokers, and coordinate the system. But newer versions of Kafka introduce KRaft mode, which simplifies this by removing the need for Zookeeper entirely. KRaft stands for Kafka Raft Metadata mode, and it integrates this coordination directly into Kafka itself, making it easier to deploy and manage especially in smaller or local environments. </p>
+                            <h3>Why choose Kafka? </h3>
+                            <p> Kafka is built to be fast, reliable, and scalable. It runs on one or more brokers, which are the actual servers that receive, store, and forward messages. When data is written to Kafka, it is not immediately deleted after consumption. Instead, Kafka stores it durably on disk, allowing new consumers to replay older messages. Kafka also supports replication, meaning the same message can be stored on multiple brokers, ensuring that no data is lost if one machine fails. This is part of Kafka’s built-in fault tolerance.</p>
+                            <p>One of Kafka’s greatest strengths is that it allows different systems to talk to each other without being tightly connected. A producer doesn’t need to know who the consumer is — it just sends data to Kafka. This loose coupling enables microservice architectures, where different parts of a system can evolve independently. For example, a mobile app can send user activity logs into Kafka, and three completely different consumers might be analyzing that data in real-time, archiving it, or detecting fraud — all without interfering with each other.
+                            </p>
+                            <h3> Other systems</h3>
+                            <p> Kafka is not the only messaging system out there — for example, RabbitMQ also supports message queuing. However, RabbitMQ is often used for lightweight transactional systems, where messages must be processed immediately and then discarded. Kafka, on the other hand, shines in systems that require high throughput, persistence, and the ability to reprocess data over time. It is often the system of choice in data engineering pipelines, analytics, and real-time monitoring systems.</p>
+                            <h1>What is Apache Spark? </h1>
+                            <p> If Kafka is the mailroom, Apache Spark is the smart kitchen that prepares data for delivery. Spark is a powerful engine that processes large amounts of data very quickly by doing most of the work in memory. This is in sharp contrast to older systems like Hadoop, which rely heavily on reading from and writing to disk. Hadoop processes data in batches: it reads a chunk of data, processes it, stores the result, then starts over. Spark, by contrast, can hold data in memory across operations, making it up to 100 times faster for some tasks. </p>
+
+                            <h3>Key concepts </h3>
+                            <p>At the heart of Spark is a structure called the Resilient Distributed Dataset or RDD. RDDs are fault-tolerant collections of objects spread across many machines. They can be rebuilt automatically if something goes wrong. Over time, Spark has introduced higher-level abstractions such as DataFrames and Datasets, which make it easier to work with structured data using SQL-like syntax. </p>
+                            <p> Spark supports both batch and real-time streaming workloads. In streaming mode, Spark reads small chunks of data continuously from a source like Kafka and processes them incrementally. This is done using Structured Streaming, which treats the stream of data as an unending table that is updated as new data arrives.</p>
+                            <h3>How it all works </h3>
+                            <p> The internal architecture of Spark consists of a few key components. A driver program is the brain of the operation; it defines the high-level logic and coordination of your job. It communicates with a cluster manager (which could be Spark's own standalone manager, YARN, Kubernetes, or Mesos) to allocate resources. The actual work is performed by executors, which are processes running on worker nodes. These executors perform computations and store intermediate data. The driver sends tasks to executors, gathers the results, and coordinates the overall workflow.</p>
+                            <p>When writing Spark code, you usually define transformations like .map() or .filter(), which describe how the data should be changed. These operations are lazy — meaning they don’t run immediately. Spark waits until it sees an action like .collect() or .write(), and only then does it actually start processing. This approach allows Spark to optimize the entire chain of operations before running them, reducing unnecessary work and improving performance. </p>
+
+                            <h1> Kafka + Spark Together: Real-Time Data Processing </h1>
+                            <p>
+In this project, Kafka and Spark work together to create a real-time data processing pipeline. Kafka handles the ingestion — it receives rows of trending video data and stores them under a specific topic. Spark acts as a subscriber to that Kafka topic, consuming the data as it arrives, processing it (e.g., counting videos by country or category), and writing the results to disk as CSV files. These files can then be picked up by a dashboard or another application. </p>
+                            <p> This architecture is powerful because it keeps the data producers and data processors separate. The Kafka producer can be  changed (maybe read from an API instead of a CSV) without touching Spark. Similarly, you could replace Spark with another system that reads from Kafka. This modularity is exactly how large-scale, cloud-based data platforms are built.
+                            </p>
+                            <h2> How does it work in production?</h2>
+                            <p>
+                            In production environments, Kafka would typically run on cloud platforms like AWS MSK or Confluent Cloud, while Spark jobs would be executed on clusters in Databricks, AWS EMR, or Kubernetes. Files would not be written to local disk but stored in data lakes like Delta Lake or cloud warehouses such as Amazon Redshift or Snowflake. Dashboards like Tableau, Power BI, or Grafana would directly connect to these data sources and update in real time. Monitoring and alerting would be handled by tools like CloudWatch, Prometheus, or the ELK stack, rather than manually checking files.
+                            </p>
+                        </div>
+
+					</section>
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer>
+
+
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

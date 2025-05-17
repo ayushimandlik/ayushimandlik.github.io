@@ -1,0 +1,194 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+        <title>Real-time youtube video analyser</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="title">Home</a>
+				<nav>
+					<ul>
+						<li><a href="resume.html">Resume</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+
+                            <h1> 📺 Real-Time YouTube Trending Video Analyzer </h1>
+                            <p>
+The aim of this project was to gain a deep understanding of real-time data pipelines and how large tech companies use Kafka and Spark for streaming, monitoring, and analytics — by simulating such a system locally. Kafka and Spark are highly scalable systems typically used in production for tasks like clickstream analysis, fraud detection, and dynamic dashboarding. This project replicates a simplified version of that on a single local machine, proving that real-time processing concepts can be
+learned and implemented even without cloud infrastructure.  Before I begin, here is a brief explanation of what Kafka and Spark are.</p>
+                             <p>For a deeper dive into what Kafka and Spark are, how they work individually and as a powerful team, check out the full explanation <a href="kafka_spark.html" class="title">here</a>!</p>
+                            <h3> What is Kafka? </h3> <p>
+Kafka is like a supercharged message bus that lets different parts of your system talk to each other — without shouting across the room. It works by organizing messages into topics, which are like labeled folders where you drop your data (say, trending videos). Producers send data into these topics, and consumers pick it up at their own pace, kind of like subscribing to your favorite podcast.
+</p>
+<h3>What is Spark? </h3>
+<p>Spark is the brainy, fast-processing engine that takes all that data (maybe from Kafka!) and crunches it like a pro. It shines because it keeps data in memory while working, unlike older systems like Hadoop that keep running to the hard disk. This makes it insanely fast — like, 100 times faster in some cases! At its core is the RDD (Resilient Distributed Dataset), a smart way to spread data across machines so it can survive crashes and be worked on in parallel.  </p>
+<h3>Summary structure </h3>
+<p> 
+This project summary is structured to provide a clear and comprehensive overview of the end-to-end data streaming pipeline built using Kafka, Spark, and Streamlit on a single local machine. It begins with a high-level architecture description of the system, followed by a short video demonstration of the pipeline in action. After the demo, I break down each component of the pipeline—Kafka, Spark, storage, and the dashboard—explaining their individual roles, how they interact, and what their equivalents look like in an industry-scale cloud environment. Finally, I reflect on key technical and conceptual learnings gained throughout the process, especially around real-time data flow, processing bottlenecks, and debugging distributed-like systems locally.
+                            </p>
+                            <h2>🔁 Architecture Overview </h2>
+                            <p>
+                            <code>
+                            [Kafka Producer] → [Kafka Topic: youtube-trending] → [Spark Streaming Consumer] → [CSV Output] → [Streamlit Dashboard]
+                            </code></p>
+                            <p>Each component mirrors a real-world role: </p>
+<ul> <li>
+Kafka Producer: Publishes video trend data to a Kafka topic.
+    </li> <li>
+Kafka Topic: Acts as a distributed queue.
+    </li> <li>
+Spark Consumer: Listens to the topic, aggregates likes over time.
+    </li> <li>
+CSV Sink: Stores real-time output for visualization.
+    </li> <li>
+Streamlit Dashboard: Displays most liked videos by country.
+    </li> </ul>
+
+      <h2>🖥️  Demo Walkthrough </h2>
+  <div style="text-align: center;">
+  <video id="myVideo" width=100% height='auto' controls="controls autoplay">
+    <source src="images/youtube_analyser.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video><br>
+  </div>
+  <ul> <li>
+          The video begins with starting the Kafka server in a terminal window. </li>
+      <li> In the second terminal, a Kafka producer is started. It reads rows from multiple country-specific YouTube CSV files and sends data to a Kafka topic named youtube-      trending. </li> <li>
+          In the third terminal, a Spark Structured Streaming script is launched. This consumer reads data from the Kafka topic, extracts fields, and aggregates total likes per   video title and country. Output is written as CSV files in a monitored folder.</li>
+      <li> In the fourth terminal, the Streamlit dashboard is started </li>
+      <li>Finally, another terminal window shows new CSV files being created by Spark every few seconds- evidence that the pipeline is actively processing and aggregating data. </   li> </ul>
+<p>
+💻 Curious to see it in action? Check out the full project on and try running it on your own machine! If you run into any issues, feel free to reach out — I would love to help. 🚀
+<a href="https://github.com/ayushimandlik/real-time_video_analyser" class="button primary fit">Github</a>
+</p>
+                            <h2>  Components & Workflow</h2>
+                            <h3>1.  Kafka Setup (Messaging Layer) </h3> 
+                            <p>
+                            Kafka is a distributed event streaming platform used to decouple data producers and consumers. Here is how I set it up:
+                            </p>
+<pre><code>
+# Format storage 
+bin/kafka-storage.sh format -t $(bin/kafka-storage.sh random-uuid) -c config/kraft/server.properties 
+
+# Start Kafka Server (KRaft mode – no Zookeeper)
+bin/kafka-server-start.sh config/kraft/server.properties
+
+# Create topic named "youtube-trending" 
+bin/kafka-topics.sh --create --topic youtube-trending --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1 
+                            </code>
+</pre>
+<p>
+<b><em>💡 Industry Analogy: </em></b>
+In large companies like LinkedIn or Netflix, Kafka runs on a multi-node cluster, and producers send logs or event data (e.g., user clicks, video plays) in real time to different Kafka topics hosted on cloud infrastructure (AWS MSK, Confluent Cloud, etc.).
+</p>
+
+                            <h3>2.  Kafka Producer (Simulating Data Streams) </h3> 
+                            <p>
+                            The producer script reads multiple country-specific CSV files (USvideos.csv, INvideos.csv, etc.) and randomly samples rows to simulate real-time video trend data being published to the Kafka topic.
+                            </p>
+<p>
+<b><em>💡 Industry Analogy: </em></b>
+This simulates a use case like YouTube’s ingestion pipeline, where logs about video views or likes are published to Kafka every few seconds/minutes.
+</p>
+
+                            <h3>3. Spark Consumer (Real-Time Aggregation) </h3> 
+                            <p>
+                            Apache Spark consumes messages from Kafka and performs streaming aggregations using Structured Streaming. The script extracts fields from Kafka JSON messages, converts publish_time to timestamp, applies watermarks to handle late data, and aggregates likes per video per country. The results are written in append mode to CSVs.                            </p>
+<p>
+<b><em>💡 Industry Analogy: </em></b>
+This is similar to how Uber aggregates trip events in real-time, using Spark and Kafka to generate dashboards or fraud alerts. In production, this would write to a distributed sink (e.g., Delta Lake, Snowflake, BigQuery) or trigger alerts via webhook/Slack.
+</p>
+<h3>4. Streamlit Dashboard (Visualization) </h3>
+<p> A separate Streamlit app reads the output CSV files generated by Spark and visualizes likes by country and trending videos. </p>
+<p>  <b><em>💡 Industry Analogy: </em></b>
+This mimics how monitoring dashboards (e.g., Grafana, Tableau) update in near-real-time to reflect backend streaming data — like YouTube Studio's real-time video analytics.</p>
+
+<h3> 🏢 Local vs Industry Setup </h3>
+<table border="1">
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Local Version</th>
+      <th>Industry Equivalent</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Kafka</td>
+      <td>Single-node Kafka in KRaft mode</td>
+      <td>Kafka Cluster on AWS MSK or Confluent Cloud</td>
+    </tr>
+    <tr>
+      <td>Spark</td>
+      <td>PySpark on local machine</td>
+      <td>Spark on Databricks, AWS EMR, or Kubernetes</td>
+    </tr>
+    <tr>
+      <td>Storage</td>
+      <td>CSV files</td>
+      <td>Delta Lake, Redshift, S3, or Snowflake</td>
+    </tr>
+    <tr>
+      <td>Dashboard</td>
+      <td>Streamlit</td>
+      <td>Tableau, Power BI, Grafana with live connectors</td>
+    </tr>
+    <tr>
+      <td>Monitoring</td>
+      <td>Manual (CSV watcher)</td>
+      <td>CloudWatch, Prometheus, ELK Stack</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>🧠 Learnings </h2>
+<ul>
+    <li>Understood how Kafka decouples producers and consumers via topics. </li>
+    <li>Learned how Spark Structured Streaming performs real-time batch-style processing. </li>
+    <li>Dealt with edge cases like watermarking, checkpointing, and file sink behavior. </li>
+    <li>Gained insight into how streaming data pipelines are built at scale. </li>
+    <li>Realized the importance of understanding local development before jumping to cloud-based streaming platforms. </li>
+</ul>
+
+						</div>
+					</section>
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer>
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
